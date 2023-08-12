@@ -78,6 +78,25 @@ class AlchemistsCGE extends Table
         
         /************ Start the game initialization *****/
 
+        self::setGameStateInitialValue('currentHandType', 0);
+        self::setGameStateInitialValue('trickColor', 0);
+        self::setGameStateInitialValue('alreadyPlayedHearts', 0);
+
+        $cards = array();
+        foreach($this->colors as $color_id => $color) {
+            for ($value = 2; $value <= 14; $value++) {
+                $cards[] = array ('type' => $color_id, 'type_arg' => $value, 'nbr' => 1);
+            }
+        }
+        $this->cards->createCards($cards, 'deck');
+
+        $this->cards->shuffle('deck');
+        $players = self::loadPlayersBasicInfos();
+        foreach($players as $player_id => $player) {
+            $cards = $this->cards->pickCards(13, 'deck', $player_id);
+        }
+
+
         // Init global values with their initial values
         //self::setGameStateInitialValue( 'my_first_global_variable', 0 );
         
@@ -114,9 +133,12 @@ class AlchemistsCGE extends Table
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
         $sql = "SELECT player_id id, player_score score FROM player ";
         $result['players'] = self::getCollectionFromDb( $sql );
-  
+
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
-  
+
+        $result['hand'] = $this->cards->getCardsInLocation('hand', $current_player_id);
+        $result['cardsontable'] = $this->cards->getCardsInLocation('cardsontable');
+
         return $result;
     }
 

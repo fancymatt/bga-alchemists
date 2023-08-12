@@ -65,17 +65,35 @@ function (dojo, declare) {
             // Player hand
             this.playerHand = new ebg.stock();
             this.playerHand.create(this, $('ingredient-cards-hand'), this.cardwidth, this.cardheight);
+            this.playerHand.image_items_per_row = 13;
+
+            dojo.connect(this.playerHand, 'onChangeSelection', this, 'onPlayerHandSelectionChanged');
 
             for (var color = 1; color <= 4; color++) {
                 for (var value = 2; value <= 14; value++) {
+                    // Build card type id
                     var card_type_id = this.getCardUniqueId(color, value);
                     this.playerHand.addItemType(card_type_id, card_type_id, g_gamethemeurl + 'img/cards.jpg', card_type_id);
                 }
             }
 
-            this.playerHand.addToStockWithId(this.getCardUniqueId(2, 5), 42);
+            //this.playerHand.addToStockWithId(this.getCardUniqueId(2, 5), 42);
+            for (var i in this.gamedatas.hand) {
+                var card = this.gamedatas.hand[i];
+                var color = card.type;
+                var value = card.type_arg;
+                this.playerHand.addToStockWithId(this.getCardUniqueId(color, value), card.id);
+            }
 
-            dojo.connect(this.playerHand, 'onChangeSelection', this, 'onPlayerHandSelectionChanged');
+            for (i in this.gamedatas.cardsontable) {
+                var card = this.gamedatas.hand[i];
+                var color = card.type;
+                var value = card.type_arg;
+                var player_id = card.location_arg;
+                this.playCardOnTable(player_id, color, value, card.id);
+            }
+
+
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -180,6 +198,32 @@ function (dojo, declare) {
             return (color - 1) * 13 + (value - 2);
         },
 
+        playCardOnTable : function(player_id, color, value, card_id) {
+            // player_id => direction
+            dojo.place(this.format_block('jstpl_cardontable', {
+                x : this.cardwidth * (value - 2),
+                y : this.cardheight * (color - 1),
+                player_id : player_id
+            }), 'playertablecard_' + player_id);
+
+            if (player_id != this.player_id) {
+                // Some opponent played a card
+                // Move card from player panel
+                this.placeOnObject('cardontable_' + player_id, 'overall_player_board_' + player_id);
+            } else {
+                // You played a card. If it exists in your hand, move card from there and remove
+                // corresponding item
+
+                if ($('myhand_item_' + card_id)) {
+                    this.placeOnObject('cardontable_' + player_id, 'myhand_item_' + card_id);
+                    this.playerHand.removeFromStockById(card_id);
+                }
+            }
+
+            // In any case: move it to its final destination
+            this.slideToObject('cardontable_' + player_id, 'playertablecard_' + player_id).play();
+        },
+
 
         ///////////////////////////////////////////////////
         //// Player's action
@@ -202,6 +246,12 @@ function (dojo, declare) {
                 if (this.checkAction('playCard', true)) {
                     var card_id = items[0].id;
                     console.log("on playCard "+card_id);
+                    // type is (color - 1) * 13 + (value - 2)
+                    var type = items[0].type;
+                    var color = Math.floor(type / 13) + 1;
+                    var value = type % 13 + 2;
+
+                    this.playCardOnTable(this.player_id,color,value,card_id);
 
                     this.playerHand.unselectAll();
                 } else if (this.checkAction('giveCards')) {

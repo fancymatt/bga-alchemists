@@ -3,10 +3,11 @@
 <div id="table-layer">
     <div id="player-tables">
         <!-- BEGIN player -->
-        <div class="playertable whiteblock playertable">
+        <div class="playertable whiteblock playertable_{DIR}">
             <div class="playertablename" style="color:#{PLAYER_COLOR}">
                 {PLAYER_NAME}
             </div>
+            <div class="playertablecard" id="playertablecard_{PLAYER_ID}"></div>
         </div>
         <!-- END player -->
     </div>
@@ -36,11 +37,8 @@
 
 // Javascript HTML templates
 
-/*
-// Example:
-var jstpl_some_game_item='<div class="my_game_item" id="my_game_item_${MY_ITEM_ID}"></div>';
-
-*/
+var jstpl_cardontable = '<div class="cardontable" id="cardontable_${player_id}" style="background-position:-${x}px -${y}px">\
+                        </div>';
 
 </script>  
 
