@@ -26,7 +26,23 @@
 -->
 
 
-This is your game interface. You can edit this HTML in your ".tpl" file.
+<div id="table-layer">
+    <div id="worker-board">
+        <h2>Worker Placement Board</h2>
+    </div>
+    <div id="theory-board">
+        <h2>Theory Board</h2>
+    </div>
+    <div id="player-area">
+        <h2>Player Area</h2>
+        <div id="deduction-area">
+            <h3>Deduction Area</h3>
+        </div>
+        <div id="card-area">
+            <h3>Card Area</h3>
+        </div>
+    </div>
+</div>
 
 
 <script type="text/javascript">
