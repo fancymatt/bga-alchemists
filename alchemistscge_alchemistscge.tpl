@@ -3,11 +3,9 @@
 <div id="table-layer">
     <div id="player-tables">
         <!-- BEGIN player -->
-        <div class="playertable whiteblock">
+        <div class="playertable whiteblock playertable">
             <div class="playertablename" style="color:#{PLAYER_COLOR}">
                 {PLAYER_NAME}
-            </div>
-
             </div>
         </div>
         <!-- END player -->
@@ -28,9 +26,6 @@
             <div id="ingredient-cards" class="whiteblock">
                 <h3>{INGREDIENT_CARDS}</h3>
                 <div id="ingredient-cards-hand">
-                    <div class="playertablecard"></div>
-                    <div class="playertablecard"></div>
-                    <div class="playertablecard"></div>
                 </div>
             </div>
         </div>

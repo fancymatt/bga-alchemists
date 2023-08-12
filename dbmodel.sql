@@ -29,6 +29,8 @@ CREATE TABLE IF NOT EXISTS `ingredient_cards` (
   PRIMARY KEY (`card_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+ALTER TABLE `player` ADD `player_first` BOOLEAN NOT NULL DEFAULT '0';
+
 
 -- Example 2: add a custom field to the standard "player" table
 -- ALTER TABLE `player` ADD `player_my_custom_field` INT UNSIGNED NOT NULL DEFAULT '0';

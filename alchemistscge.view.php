@@ -41,22 +41,6 @@ class view_alchemistscge_alchemistscge extends game_view
         $players_nbr = count( $players );
 
         /*********** Place your code below:  ************/
-
-        $template = self::getGameName() . "_" . self::getGameName();
-
-        // Set up player areas
-        $this->page->begin_block($template, "player");
-        foreach ( $players as $player_id => $info) {
-            $this->page->insert_block("player", array (
-                "PLAYER_ID" => $player_id,
-                "PLAYER_NAME" => $players [$player_id] ['player_name'],
-                "PLAYER_COLOR" => $players [$player_id] ['player_color'],
-            ));
-        }
-
-        // Set up ingredient cards
-        $this->tpl['INGREDIENT_CARDS'] = self::_("My Ingredients");
-
         /*
         
         // Examples: set the value of some element defined in your tpl file like this: {MY_VARIABLE_ELEMENT}
@@ -71,6 +55,23 @@ class view_alchemistscge_alchemistscge extends game_view
         $this->tpl['MY_VARIABLE_ELEMENT'] = self::raw( $some_html_code );
         
         */
+
+        $template = self::getGameName() . "_" . self::getGameName();
+
+        $directions = array('S', 'W', 'N', 'E');
+
+        $this->page->begin_block($template, 'player');
+        foreach ($players as $player_id => $info) {
+            $dir = array_shift($directions);
+            $this->page->insert_block('player', array(
+                'PLAYER_ID' => $player_id,
+                'PLAYER_NAME' => $players[$player_id]['player_name'],
+                'PLAYER_COLOR' => $players[$player_id]['player_color'],
+                'DIR' => $dir
+            ));
+        }
+
+        $this->tpl['INGREDIENT_CARDS'] = self::_('My Ingredients');
         
         /*
         
