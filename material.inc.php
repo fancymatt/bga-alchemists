@@ -19,6 +19,41 @@
  *
  */
 
+ $this->ingredient_types = array(
+
+    "MUSHROOM" => array(
+        "name" => clienttranslate('Mushroom')
+    ),
+
+    "FLOWER" => array(
+        "name" => clienttranslate('Flower')
+    ),
+
+    "CHICKEN_FOOT" => array(
+        "name" => clienttranslate('Chicken Foot')
+    ),
+
+    "FEATHER" => array(
+        "name" => clienttranslate('Feather')
+    ),
+
+    "FROG" => array(
+        "name" => clienttranslate('Frog')
+    ),
+
+    "SCORPION" => array(
+        "name" => clienttranslate('Scorpion')
+    ),
+
+    "MANDRAKE" => array(
+        "name" => clienttranslate('Mandrake')
+    ),
+
+    "STEM" => array(
+        "name" => clienttranslate('Stem')
+    )
+ );
+
 
 /*
 

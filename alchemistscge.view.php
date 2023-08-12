@@ -44,6 +44,7 @@ class view_alchemistscge_alchemistscge extends game_view
 
         $template = self::getGameName() . "_" . self::getGameName();
 
+        // Set up player areas
         $this->page->begin_block($template, "player");
         foreach ( $players as $player_id => $info) {
             $this->page->insert_block("player", array (
@@ -52,8 +53,9 @@ class view_alchemistscge_alchemistscge extends game_view
                 "PLAYER_COLOR" => $players [$player_id] ['player_color'],
             ));
         }
-        $this->tpl['INGREDIENT_CARDS'] = self::_("My Ingredients");
 
+        // Set up ingredient cards
+        $this->tpl['INGREDIENT_CARDS'] = self::_("My Ingredients");
 
         /*
         

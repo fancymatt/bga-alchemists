@@ -18,6 +18,7 @@
 
 
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
+require('alchemistscge.card.php');
 
 
 class AlchemistsCGE extends Table
@@ -39,7 +40,20 @@ class AlchemistsCGE extends Table
             //    "my_first_game_variant" => 100,
             //    "my_second_game_variant" => 101,
             //      ...
-        ) );        
+        ) );
+
+        $this->ingredientCards = self::getNew( "module.common.deck" );
+        $this->ingredientCards->init( "ingredient_cards" );
+
+        $ingredientCards = array();
+        foreach($this->ingredient_types as $ingredient => $ingredient_ref) {
+            $ingredientCards[] = array( 'type' => "$ingredient", 'type_arg' => 0, 'nbr' => 5);
+        }
+
+        $this->ingredientCards->createCards ($ingredientCards, 'ingredient_deck');
+        self::notifyAllPlayers('message', clienttranslate('The deck of ${count} ingredient cards has been created.'), array(
+            'count' => count($ingredientCards)
+        ));
 	}
 	
     protected function getGameName( )
