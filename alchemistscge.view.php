@@ -42,6 +42,18 @@ class view_alchemistscge_alchemistscge extends game_view
 
         /*********** Place your code below:  ************/
 
+        $template = self::getGameName() . "_" . self::getGameName();
+
+        $this->page->begin_block($template, "player");
+        foreach ( $players as $player_id => $info) {
+            $this->page->insert_block("player", array (
+                "PLAYER_ID" => $player_id,
+                "PLAYER_NAME" => $players [$player_id] ['player_name'],
+                "PLAYER_COLOR" => $players [$player_id] ['player_color'],
+            ));
+        }
+        $this->tpl['INGREDIENT_CARDS'] = self::_("My Ingredients");
+
 
         /*
         
