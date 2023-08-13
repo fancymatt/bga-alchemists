@@ -13,7 +13,14 @@
     </div>
 
     <div id="worker-board">
-        <h2>Worker Placement Board</h2>
+        <div id="PICK_INGREDIENTS_SPACE" class="worker-placement-space"></div>
+        <div id="TRANSMUTE_INGREDIENTS_SPACE" class="worker-placement-space"></div>
+        <div id="SELL_POTION_SPACE" class="worker-placement-space"></div>
+        <div id="BUY_ARTIFACT_SPACE" class="worker-placement-space"></div>
+        <div id="DEBUNK_THEORY_SPACE" class="worker-placement-space"></div>
+        <div id="PUBLISH_THEORY_SPACE" class="worker-placement-space"></div>
+        <div id="TEST_ON_STUDENT_SPACE" class="worker-placement-space"></div>
+        <div id="TEST_ON_SELF_SPACE" class="worker-placement-space"></div>
     </div>
     <div id="theory-board">
         <h2>Theory Board</h2>

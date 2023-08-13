@@ -71,19 +71,41 @@
 
  );
 
+ $this->worker_placement_spaces = array(
+    "PICK_INGREDIENTS_SPACE" => array(
+        'name' => clienttranslate('Forage for Ingredient'),
+        'tooltip' => clienttranslate('Take either 1 face-up ingredient from the row or draw 1 random ingredient from the top of the deck.')
+    ),
+    'TRANSMUTE_INGREDIENTS_SPACE' => array(
+        'name' => clienttranslate('Transmute Ingredient'),
+        'tooltip' => clienttranslate('Discard 1 ingredient and take 1 gold piece from the bank.')
+    ),
+    'SELL_POTION_SPACE' => array(
+        'name' => clienttranslate('Sell Potion'),
+        'tooltip' => clienttranslate('Choose one of the requested potions, choose a guarantee, then make a potion.')
+    ),
+    'BUY_ARTIFACT_SPACE' => array(
+        'name' => clienttranslate('Buy Artifact'),
+        'tooltip' => clienttranslate('Take one of the cards in the artifact row and pay the cost in the upper left corner.')
+    ),
+    'DEBUNK_THEORY_SPACE' => array(
+         'name' => clienttranslate('Debunk Theory'),
+         'tooltip' => clienttranslate('Choose one of the published theories and prove that it is incorrect.')
+     ),
+    'PUBLISH_THEORY_SPACE' => array(
+         'name' => clienttranslate('Publish Theory'),
+         'tooltip' => clienttranslate('Pick one of the alchemical tokens and place it on one of the books in the theory board.')
+     ),
+    'TEST_ON_STUDENT_SPACE' => array(
+         'name' => clienttranslate('Test on Student'),
+         'tooltip' => clienttranslate('Choose two ingredients to combine and make a student drink the resulting potion.')
+     ),
+    'TEST_ON_SELF_SPACE' => array(
+         'name' => clienttranslate('Drink Potion'),
+         'tooltip' => clienttranslate('Choose two ingredients to combine and drink the resulting potion yourself.')
+     )
 
-/*
-
-Example:
-
-$this->card_types = array(
-    1 => array( "card_name" => ...,
-                ...
-              )
-);
-
-*/
-
+ );
 
 
 

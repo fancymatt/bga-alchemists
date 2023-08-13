@@ -52,6 +52,10 @@ function (dojo, declare) {
         {
             console.log( "Starting game setup" );
             console.log("gamedatas", this.gamedatas);
+
+            // Set mobile viewport for portrait orientation based on gameinfos.inc.php
+            this.default_viewport = "width=" + this.interface_min_width;
+            this.onScreenWidthChange();
             
             // Setting up player boards
             for( var player_id in gamedatas.players )
@@ -273,5 +277,15 @@ function (dojo, declare) {
         },    
         
         */
+
+        onScreenWidthChange: function () {
+            // Remove broken "zoom" property added by BGA framework
+            this.gameinterface_zoomFactor = 1;
+            $("page-content").style.removeProperty("zoom");
+            $("page-title").style.removeProperty("zoom");
+            $("right-side-first-part").style.removeProperty("zoom");
+        }
+
+
    });             
 });
