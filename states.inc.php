@@ -64,8 +64,8 @@ $machinestates = array(
     2 => array(
         "name" => "gameSetup_chooseFavorCards",
         "type" => "multipleactiveplayer",
-        "description" => clienttranslate('Choose two favor cards to keep'),
-        "descriptionmyturn" => clienttranslate('Choose two favor cards to keep'),
+        "description" => clienttranslate('Choose one favor card to keep'),
+        "descriptionmyturn" => clienttranslate('Choose one favor card to keep'),
         "action" => "stChooseFavorCards",
         "transitions" => array("chooseCards" => 3)
     ),

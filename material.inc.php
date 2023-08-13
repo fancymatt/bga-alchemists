@@ -24,49 +24,133 @@
     "STEM" => array(
         "type_id" => "STEM",
         "name" => clienttranslate('Stem'),
-        "id" => 0
+        "id" => 0,
+        "count" => 5
     ),
 
     "MANDRAKE" => array(
         "type_id" => "MANDRAKE",
         "name" => clienttranslate('Mandrake'),
-        "id" => 1
+        "id" => 1,
+        "count" => 5
     ),
 
     "SCORPION" => array(
         "type_id" => "SCORPION",
         "name" => clienttranslate('Scorpion'),
-        "id" => 2
+        "id" => 2,
+        "count" => 5
     ),
 
     "FLOWER" => array(
         "type_id" => "FLOWER",
         "name" => clienttranslate('Flower'),
-        "id" => 3
+        "id" => 3,
+        "count" => 5
     ),
 
     "CHICKEN_FOOT" => array(
         "type_id" => "CHICKEN_FOOT",
         "name" => clienttranslate('Chicken Foot'),
-        "id" => 4
+        "id" => 4,
+        "count" => 5
     ),
 
     "FEATHER" => array(
         "type_id" => "FEATHER",
         "name" => clienttranslate('Feather'),
-        "id" => 5
+        "id" => 5,
+        "count" => 5
     ),
 
     "FROG" => array(
         "type_id" => "FROG",
         "name" => clienttranslate('Frog'),
-        "id" => 6
+        "id" => 6,
+        "count" => 5
     ),
 
     "MUSHROOM" => array(
         "type_id" => "MUSHROOM",
         "name" => clienttranslate('Mushroom'),
-        "id" => 7
+        "id" => 7,
+        "count" => 5
+    )
+
+ );
+
+ $this->favor_types = array(
+
+    "ASSISTANT" => array(
+        "type_id" => "ASSISTANT",
+        "name" => clienttranslate('Assistant'),
+        "id" => 0,
+        "count" => 4,
+        "play_condition" => clienttranslate('Play when you declare actions.'),
+        "description" => clienttranslate('For this round, you have 1 extra action cube.')
+    ),
+
+    "ASSOCIATE" => array(
+        "type_id" => "ASSOCIATE",
+        "name" => clienttranslate('Associate'),
+        "id" => 1,
+        "count" => 3,
+        "play_condition" => clienttranslate('Play when you declare actions.'),
+        "description" => clienttranslate('Choose one action space. On that space, your cubes go in the top row.')
+    ),
+
+    "BARMAID" => array(
+        "type_id" => "BARMAID",
+        "name" => clienttranslate('Barmaid'),
+        "id" => 2,
+        "count" => 2,
+        "play_condition" => clienttranslate('Play when it is your turn to sell a potion.'),
+        "description" => clienttranslate('If you mix an exact match, you gain 1 point of reputation. If not, count the potion as one level better than it is.')
+    ),
+
+    "CUSTODIAN" => array(
+        "type_id" => "CUSTODIAN",
+        "name" => clienttranslate('Custodian'),
+        "id" => 3,
+        "count" => 3,
+        "play_condition" => clienttranslate('Play when you declare actions.'),
+        "description" => clienttranslate('Place one cube on this card. For this round, that cube is a special Drink Potion action that you may use before the Sell Potions action space.')
+    ),
+
+    "HERBALIST" => array(
+        "type_id" => "HERBALIST",
+        "name" => clienttranslate('Herbalist'),
+        "id" => 4,
+        "count" => 4,
+        "play_condition" => clienttranslate('Play immediately.'),
+        "description" => clienttranslate('Draw 3 ingredients. Then discard 2 ingredients.')
+    ),
+
+    "MERCHANT" => array(
+        "type_id" => "MERCHANT",
+        "name" => clienttranslate('Merchant'),
+        "id" => 5,
+        "count" => 2,
+        "play_condition" => clienttranslate('Play when it is your turn to sell a potion.'),
+        "description" => clienttranslate('If you sell first, gain 1 gold piece. If not, you may sell any of the three potions, as though you were first.')
+    ),
+
+    "SAGE" => array(
+        "type_id" => "SAGE",
+        "name" => clienttranslate('Sage'),
+        "id" => 6,
+        "count" => 2,
+        "play_condition" => clienttranslate('Play when you transmute an ingredient.'),
+        "description" => clienttranslate('Gain 1 extra gold piece during transmutation.')
+    ),
+
+    "SHOPKEEPER" => array(
+        "type_id" => "SHOPKEEPER",
+        "name" => clienttranslate('Shopkeeper'),
+        "id" => 7,
+        "count" => 2,
+        "play_condition" => clienttranslate('Play when you buy an artifact.'),
+        "description" => clienttranslate('One artifact costs you 1 less gold piece.')
     )
 
  );

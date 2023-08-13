@@ -36,6 +36,11 @@
                 <div id="ingredient-cards-hand">
                 </div>
             </div>
+            <div id="favor-cards" class="whiteblock">
+                <h3>{FAVOR_CARDS}</h3>
+                <div id="favor-cards-hand">
+                </div>
+            </div>
         </div>
     </div>
 </div>

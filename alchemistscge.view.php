@@ -72,6 +72,7 @@ class view_alchemistscge_alchemistscge extends game_view
         }
 
         $this->tpl['INGREDIENT_CARDS'] = self::_('My Ingredients');
+        $this->tpl['FAVOR_CARDS'] = self::_('My Favor Cards');
         
         /*
         

@@ -67,7 +67,7 @@ function (dojo, declare) {
             
             // TODO: Set up your game interface here, according to "gamedatas"
 
-            // Player hand
+            // Player hand: Ingredients
             this.playerIngredientsHand = new ebg.stock();
             this.playerIngredientsHand.create(this, $('ingredient-cards-hand'), this.cardwidth, this.cardheight);
             this.playerIngredientsHand.image_items_per_row = 8;
@@ -77,11 +77,28 @@ function (dojo, declare) {
                 this.playerIngredientsHand.addItemType(ingredientType.id, 1, g_gamethemeurl + 'img/ingredients.jpg', ingredientType.id);
             }
 
-            for (let key in this.gamedatas.hand) {
-                var card = this.gamedatas.hand[key];
+            for (let key in this.gamedatas.ingredientHand) {
+                var card = this.gamedatas.ingredientHand[key];
                 var type = card.type;
                 var id = this.gamedatas.ingredientTypes[type].id;
                 this.playerIngredientsHand.addToStockWithId(id, card.id);
+            }
+
+            // Player hand: Favors
+            this.playerFavorHand = new ebg.stock();
+            this.playerFavorHand.create(this, $('favor-cards-hand'), this.cardwidth, this.cardheight);
+            this.playerFavorHand.image_items_per_row = 8;
+
+            for (let key in this.gamedatas.favorTypes) {
+                let favorType = this.gamedatas.favorTypes[key];
+                this.playerFavorHand.addItemType(favorType.id, 1, g_gamethemeurl + 'img/favors.jpg', favorType.id);
+            }
+
+            for (let key in this.gamedatas.favorHand) {
+                var card = this.gamedatas.favorHand[key];
+                var type = card.type;
+                var id = this.gamedatas.favorTypes[type].id;
+                this.playerFavorHand.addToStockWithId(id, card.id);
             }
 
             // Setup game notifications to handle (see "setupNotifications" method below)
