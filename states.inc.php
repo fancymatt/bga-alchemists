@@ -58,45 +58,53 @@ $machinestates = array(
         "description" => "",
         "type" => "manager",
         "action" => "stGameSetup",
-        "transitions" => array( "" => 2 )
+        "transitions" => array( "" => 2)
     ),
-    
-    // Note: ID=2 => your first state
 
     2 => array(
-    		"name" => "playerTurn",
-    		"description" => clienttranslate('${actplayer} must play a card or pass'),
-    		"descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
-    		"type" => "activeplayer",
-    		"possibleactions" => array( "playCard", "pass" ),
-    		"transitions" => array( "playCard" => 2, "pass" => 2 )
+        "name" => "gameSetup_chooseFavorCards",
+        "type" => "multipleactiveplayer",
+        "description" => clienttranslate('Choose two favor cards to keep'),
+        "descriptionmyturn" => clienttranslate('Choose two favor cards to keep'),
+        "action" => "stChooseFavorCards",
+        "transitions" => array("chooseCards" => 3)
     ),
-    
-/*
-    Examples:
-    
-    2 => array(
-        "name" => "nextPlayer",
-        "description" => '',
+
+    3 => array(
+        "name" => "gameSetup_awaitChooseFavorCards",
         "type" => "game",
-        "action" => "stNextPlayer",
-        "updateGameProgression" => true,   
-        "transitions" => array( "endGame" => 99, "nextPlayer" => 10 )
+        "description" => clienttranslate('All players must choose two favor cards to keep'),
+        "action" => "stAwaitChooseFavorCards",
+        "transitions" => array("allPlayersChoseFavorCards" => "STATE_CHOOSE_WAKEUP_ORDER")
     ),
-    
-    10 => array(
-        "name" => "playerTurn",
-        "description" => clienttranslate('${actplayer} must play a card or pass'),
-        "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
-        "type" => "activeplayer",
-        "possibleactions" => array( "playCard", "pass" ),
-        "transitions" => array( "playCard" => 2, "pass" => 2 )
-    ), 
 
-*/    
+    "STATE_DETERMINE_WAKEUP_ORDER_CHOOSE_ORDER" => array(
+        "name" => "round_determineWakeupOrderChooseOrder",
+        "type" => "game",
+        "description" => "",
+        "action" => "stDetermineWakeupOrderChooseOrder",
+        "transitions" => array("startChooseWakeupOrder" => "STATE_CHOOSE_WAKEUP_ORDER")
+    ),
+
+    "STATE_CHOOSE_WAKEUP_ORDER" => array(
+        "name" => "round_chooseWakeupOrder",
+        "type" => "activeplayer",
+        "description" => clienttranslate('${actplayer} must choose his/her wakeup order'),
+        "descriptionmyturn" => clienttranslate('${you} must choose your wakeup order'),
+        "transitions" => array("allPlayersChoseWakeupOrder" => 99)
+    ),
+
+    /*
+
+
+    STATE_DECLARE_ACTIONS => array(
+    ),
+
+    STATE_RESOLVE_ACTIONS => array(
+    ),
+    */
    
-    // Final state.
-    // Please do not modify (and do not overload action/args methods).
+    // Final state. Do not modify
     99 => array(
         "name" => "gameEnd",
         "description" => clienttranslate("End of game"),
