@@ -19,66 +19,56 @@
  *
  */
 
- $this->colors = array(
-    1 => array( 'name' => clienttranslate('spade'),
-                'nametr' => self::_('spade') ),
-    2 => array( 'name' => clienttranslate('heart'),
-                'nametr' => self::_('heart') ),
-    3 => array( 'name' => clienttranslate('club'),
-                'nametr' => self::_('club') ),
-    4 => array( 'name' => clienttranslate('diamond'),
-                'nametr' => self::_('diamond') )
- );
-
- $this->values_label = array(
-     2 =>'2',
-     3 => '3',
-     4 => '4',
-     5 => '5',
-     6 => '6',
-     7 => '7',
-     8 => '8',
-     9 => '9',
-     10 => '10',
-     11 => clienttranslate('J'),
-     12 => clienttranslate('Q'),
-     13 => clienttranslate('K'),
-     14 => clienttranslate('A')
- );
-
  $this->ingredient_types = array(
 
-    "MUSHROOM" => array(
-        "name" => clienttranslate('Mushroom')
-    ),
-
-    "FLOWER" => array(
-        "name" => clienttranslate('Flower')
-    ),
-
-    "CHICKEN_FOOT" => array(
-        "name" => clienttranslate('Chicken Foot')
-    ),
-
-    "FEATHER" => array(
-        "name" => clienttranslate('Feather')
-    ),
-
-    "FROG" => array(
-        "name" => clienttranslate('Frog')
-    ),
-
-    "SCORPION" => array(
-        "name" => clienttranslate('Scorpion')
+    "STEM" => array(
+        "type_id" => "STEM",
+        "name" => clienttranslate('Stem'),
+        "id" => 0
     ),
 
     "MANDRAKE" => array(
-        "name" => clienttranslate('Mandrake')
+        "type_id" => "MANDRAKE",
+        "name" => clienttranslate('Mandrake'),
+        "id" => 1
     ),
 
-    "STEM" => array(
-        "name" => clienttranslate('Stem')
+    "SCORPION" => array(
+        "type_id" => "SCORPION",
+        "name" => clienttranslate('Scorpion'),
+        "id" => 2
+    ),
+
+    "FLOWER" => array(
+        "type_id" => "FLOWER",
+        "name" => clienttranslate('Flower'),
+        "id" => 3
+    ),
+
+    "CHICKEN_FOOT" => array(
+        "type_id" => "CHICKEN_FOOT",
+        "name" => clienttranslate('Chicken Foot'),
+        "id" => 4
+    ),
+
+    "FEATHER" => array(
+        "type_id" => "FEATHER",
+        "name" => clienttranslate('Feather'),
+        "id" => 5
+    ),
+
+    "FROG" => array(
+        "type_id" => "FROG",
+        "name" => clienttranslate('Frog'),
+        "id" => 6
+    ),
+
+    "MUSHROOM" => array(
+        "type_id" => "MUSHROOM",
+        "name" => clienttranslate('Mushroom'),
+        "id" => 7
     )
+
  );
 
 

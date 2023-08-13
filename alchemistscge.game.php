@@ -37,8 +37,8 @@ class AlchemistsCGE extends Table
             "trickColor" => 11,
             "alreadyPlayedHearts" => 12,
         ) );
-        $this->cards = self::getNew("module.common.deck");
-        $this->cards->init('ingredient_cards');
+        $this->ingredient_cards = self::getNew("module.common.deck");
+        $this->ingredient_cards->init('ingredient_cards');
 	}
 	
     protected function getGameName( )
@@ -78,22 +78,16 @@ class AlchemistsCGE extends Table
         
         /************ Start the game initialization *****/
 
-        self::setGameStateInitialValue('currentHandType', 0);
-        self::setGameStateInitialValue('trickColor', 0);
-        self::setGameStateInitialValue('alreadyPlayedHearts', 0);
-
-        $cards = array();
-        foreach($this->colors as $color_id => $color) {
-            for ($value = 2; $value <= 14; $value++) {
-                $cards[] = array ('type' => $color_id, 'type_arg' => $value, 'nbr' => 1);
-            }
+        $ingredient_card_types = array();
+        foreach($this->ingredient_types as $key => $value) {
+            $ingredient_card_types[] = array ('type' => $this->ingredient_types[$key]['type_id'], 'type_arg' => $this->ingredient_types[$key]['id'], 'nbr' => 5);
         }
-        $this->cards->createCards($cards, 'deck');
+        $this->ingredient_cards->createCards($ingredient_card_types, 'deck');
 
-        $this->cards->shuffle('deck');
+        $this->ingredient_cards->shuffle('deck');
         $players = self::loadPlayersBasicInfos();
         foreach($players as $player_id => $player) {
-            $cards = $this->cards->pickCards(13, 'deck', $player_id);
+            $cards = $this->ingredient_cards->pickCards(4, 'deck', $player_id);
         }
 
 
@@ -136,8 +130,10 @@ class AlchemistsCGE extends Table
 
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
 
-        $result['hand'] = $this->cards->getCardsInLocation('hand', $current_player_id);
-        $result['cardsontable'] = $this->cards->getCardsInLocation('cardsontable');
+        $result['hand'] = $this->ingredient_cards->getCardsInLocation('hand', $current_player_id);
+        $result['cardsontable'] = $this->ingredient_cards->getCardsInLocation('cardsontable');
+
+        $result['ingredientTypes'] = $this->ingredient_types;
 
         return $result;
     }
