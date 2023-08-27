@@ -1,28 +1,21 @@
 <?php
- /**
-  *------
-  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
-  * AlchemistsCGE implementation : © <Your name here> <Your email address here>
-  * 
-  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
-  * See http://en.boardgamearena.com/#!doc/Studio for more information.
-  * -----
-  * 
-  * alchemistscge.game.php
-  *
-  * This is the main file for your game logic.
-  *
-  * In this PHP file, you are going to defines the rules of the game.
-  *
-  */
 
+// Stubs for BGA Framework classes for IDE autocomplete
+require_once(APP_GAMEMODULE_PATH . 'module/common/deck.game.php');
 
-require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
-require('alchemistscge.card.php');
+// Using EuroGame as a base class for AlchemistsCGE, which extends APP_Extended, which extends Table
+require_once('modules/EuroGame.php');
 
+// All custom classes for this game
+require_once('modules/ALC_FavorCardDeck.php');
+require_once('modules/ALC_IngredientCardDeck.php');
 
-class AlchemistsCGE extends Table
+class AlchemistsCGE extends EuroGame
 {
+    private $favor_card_deck;
+    private $ingredient_card_deck;
+
+
 	function __construct( )
 	{
         // Your global variables labels:
@@ -32,42 +25,23 @@ class AlchemistsCGE extends Table
         //  the corresponding ID in gameoptions.inc.php.
         // Note: afterwards, you can get/set the global variables with getGameStateValue/setGameStateInitialValue/setGameStateValue
         parent::__construct();
-        self::initGameStateLabels( array(
-            "currentHandType" => 10,
-            "trickColor" => 11,
-            "alreadyPlayedHearts" => 12,
-        ) );
 
-        // initialize decks
-        $this->ingredient_cards = self::getNew("module.common.deck");
-        $this->ingredient_cards->init('ingredient_cards');
-        $this->favor_cards = self::getNew("module.common.deck");
-        $this->favor_cards->init('favor_cards');
+        self::initGameStateLabels( array() );
+
+        $this->favor_card_deck = new ALC_FavorCardDeck(self::getNew('module.common.deck'));
+        $this->ingredient_card_deck = new ALC_IngredientCardDeck(self::getNew('module.common.deck'));
 	}
-	
+
     protected function getGameName( )
     {
-		// Used for translations and stuff. Please do not modify.
         return "alchemistscge";
-    }	
+    }
 
-    /*
-        setupNewGame:
-        
-        This method is called only once, when a new game is launched.
-        In this method, you must setup the game according to the game rules, so that
-        the game is ready to be played.
-    */
     protected function setupNewGame( $players, $options = array() )
-    {    
-        // Set the colors of the players with HTML color code
-        // The default below is red/green/blue/orange/brown
-        // The number of colors defined here must correspond to the maximum number of players allowed for the gams
+    {
         $gameinfos = self::getGameinfos();
         $default_colors = $gameinfos['player_colors'];
- 
-        // Create players
-        // Note: if you added some extra field on "player" table in the database (dbmodel.sql), you can initialize it there.
+
         $sql = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar) VALUES ";
         $values = array();
         foreach( $players as $player_id => $player )
@@ -79,42 +53,25 @@ class AlchemistsCGE extends Table
         self::DbQuery( $sql );
         self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
         self::reloadPlayersBasicInfos();
-        
+
         /************ Start the game initialization *****/
 
-        // create ingredient cards deck and give 3 to each player
-        $ingredient_card_types = array();
-        foreach($this->ingredient_types as $key => $value) {
-            $ingredient_type = $this->ingredient_types[$key];
-            $ingredient_card_types[] = array(
-                'type' => $ingredient_type['type_id'],
-                'type_arg' => $ingredient_type['id'],
-                'nbr' => $ingredient_type['count']
-            );
-        }
+        $this->ingredient_card_deck->populate_deck($this->ingredient_types);
+        $this->favor_card_deck->populate_deck($this->favor_types);
 
-        $this->ingredient_cards->createCards($ingredient_card_types, 'deck');
-        $this->ingredient_cards->shuffle('deck');
         $players = self::loadPlayersBasicInfos();
+
+        // Each player draws 3 ingredient cards
         foreach($players as $player_id => $player) {
-            $this->ingredient_cards->pickCards(3, 'deck', $player_id);
+            $this->ingredient_card_deck->player_draw_card($player_id);
+            $this->ingredient_card_deck->player_draw_card($player_id);
+            $this->ingredient_card_deck->player_draw_card($player_id);
         }
 
-        // create favor cards deck and give 2 to each player
-        $favor_card_types = array();
-        foreach($this->favor_types as $key => $value) {
-            $favor_type = $this->favor_types[$key];
-            $favor_card_types[] = array(
-                'type' => $favor_type['type_id'],
-                'type_arg' => $favor_type['id'],
-                'nbr' => $favor_type['count']
-            );
-        }
-
-        $this->favor_cards->createCards($favor_card_types, 'deck');
-        $this->favor_cards->shuffle('deck');
+        // Each player draws 2 favor cards
         foreach($players as $player_id => $player) {
-            $this->favor_cards->pickCards(2, 'deck', $player_id);
+            $this->favor_card_deck->player_draw_card($player_id);
+            $this->favor_card_deck->player_draw_card($player_id);
         }
 
 
@@ -157,9 +114,10 @@ class AlchemistsCGE extends Table
 
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
 
-        $result['ingredientHand'] = $this->ingredient_cards->getCardsInLocation('hand', $current_player_id);
-        $result['favorHand'] = $this->favor_cards->getCardsInLocation('hand', $current_player_id);
+        $result['ingredientHand'] = $this->ingredient_card_deck->get_player_hand($current_player_id);
+        $result['favorHand'] = $this->favor_card_deck->get_player_hand($current_player_id);
 
+        // from material.inc.php. TODO: Figure out how to autocomplete
         $result['ingredientTypes'] = $this->ingredient_types;
         $result['favorTypes'] = $this->favor_types;
 
@@ -201,6 +159,28 @@ class AlchemistsCGE extends Table
     /*
         Each time a player is doing some game action, one of the methods below is called.
         (note: each method below must match an input method in alchemistscge.action.php)
+    */
+
+    /*
+    function stDiscardFavorCard($card_id) {
+        if ($card_id == null) {
+            throw new BgaUserException(self::_("You must choose a card to discard"));
+            return;
+        }
+
+        self::checkAction("discardFavorCard");
+        $player_id = self::getActivePlayerId();
+        $this->favor_cards->moveCard($card_id, 'discard', $player_id);
+
+        $discarded_card = $this->favor_cards->getCard($card_id);
+        $discarded_card_type = $this->favor_types[$discarded_card['type']];
+
+        self::notifyAllPlayers('stDiscardFavorCard', clienttranslate('${player_name} discards a ${favor_card_type} card'), array(
+            'player_name' => self::getActivePlayerName(),
+            'favor_card_type' => $discarded_card_type['name']
+        ));
+        $this->gamestate->nextState("discardFavorCard");
+    }
     */
 
     /*
@@ -266,6 +246,8 @@ class AlchemistsCGE extends Table
         The action method of state X is called everytime the current game state is set to X.
     */
 
+    /*
+
     function stChooseFavorCards()
     {
         $this->gamestate->setAllPlayersMultiactive();
@@ -273,6 +255,13 @@ class AlchemistsCGE extends Table
 
         //$this->gamestate->nextState("STATE_CHOOSE_WAKEUP_ORDER");
     }
+
+    function stChooseIngredients()
+    {
+
+    }
+
+    */
     
     /*
     

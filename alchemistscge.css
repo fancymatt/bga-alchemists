@@ -124,11 +124,16 @@
     height: 96px;
 }
 
-.cardontable {
+.card-on-table {
     position: absolute;
     width: 72px;
     height: 96px;
     background-image: url('img/cards.jpg');
+}
+
+.pending-discard {
+    position: relative;
+    top: 10px;
 }
 
 /*

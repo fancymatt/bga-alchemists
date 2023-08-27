@@ -41,6 +41,16 @@
   	
   	// TODO: defines your action entry points there
 
+      /*
+      function stDiscardFavorCard() {
+            self::setAjaxMode();
+
+            $card_id = self::getArg('card_id', AT_posint, true);
+            $this->game->stDiscardFavorCard($card_id);
+
+            self::ajaxResponse();
+      }
+       */
 
     /*
     

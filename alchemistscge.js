@@ -15,6 +15,8 @@
  *
  */
 
+
+
 define([
     "dojo","dojo/_base/declare",
     "ebg/core/gamegui",
@@ -51,7 +53,6 @@ function (dojo, declare) {
         setup: function( gamedatas )
         {
             console.log( "Starting game setup" );
-            console.log("gamedatas", this.gamedatas);
 
             // Set mobile viewport for portrait orientation based on gameinfos.inc.php
             this.default_viewport = "width=" + this.interface_min_width;
@@ -101,6 +102,8 @@ function (dojo, declare) {
                 this.playerFavorHand.addToStockWithId(id, card.id);
             }
 
+            dojo.connect(this.playerFavorHand, 'onChangeSelection', this, 'onPlayerFavorCardHandSelectionChanged');
+
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
@@ -117,24 +120,6 @@ function (dojo, declare) {
         onEnteringState: function( stateName, args )
         {
             console.log( 'Entering state: '+stateName );
-            
-            switch( stateName )
-            {
-            
-            /* Example:
-            
-            case 'myGameState':
-            
-                // Show some HTML block at this game state
-                dojo.style( 'my_html_block_id', 'display', 'block' );
-                
-                break;
-           */
-           
-           
-            case 'dummmy':
-                break;
-            }
         },
 
         // onLeavingState: this method is called each time we are leaving a game state.
@@ -143,11 +128,8 @@ function (dojo, declare) {
         onLeavingState: function( stateName )
         {
             console.log( 'Leaving state: '+stateName );
-            
-            switch( stateName )
-            {
-            
-            /* Example:
+
+            /* Example
             
             case 'myGameState':
             
@@ -156,11 +138,7 @@ function (dojo, declare) {
                 
                 break;
            */
-           
-           
-            case 'dummmy':
-                break;
-            }               
+
         }, 
 
         // onUpdateActionButtons: in this method you can manage "action buttons" that are displayed in the
@@ -174,6 +152,9 @@ function (dojo, declare) {
             {            
                 switch( stateName )
                 {
+                    case 'gameSetup_chooseFavorCards':
+                        this.addActionButton('button_1_id', _('Confirm Selection'), 'discardFavorCard');
+                        break;
 /*               
                  Example:
  
@@ -192,6 +173,24 @@ function (dojo, declare) {
 
         ///////////////////////////////////////////////////
         //// Utility methods
+
+        discardFavorCard: function(discardedCardId) {
+            console.log("Discarding favor card", discardedCardId);
+            this.playerFavorHand.removeFromStockById(discardedCardId);
+            let action = "stDiscardFavorCard";
+            this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + action + ".html", {
+                card_id: discardedCardId,
+                lock: true
+            }, this, function(result) {
+            }, function(is_error) {
+            });
+
+            this.playerFavorHand.unselectAll();
+        },
+
+        updateFavorCardHand: function() {
+
+        },
         
         /*
         
@@ -213,6 +212,16 @@ function (dojo, declare) {
             _ make a call to the game server
         
         */
+
+        onPlayerFavorCardHandSelectionChanged: function() {
+            let selectedItems = this.playerFavorHand.getSelectedItems();
+            if (selectedItems.length != 1)
+                return;
+
+            let selectedCard = selectedItems[0];
+            this.discardFavorCard(selectedCard.id);
+
+        },
 
         /* Example:
         

@@ -66,32 +66,18 @@ $machinestates = array(
         "type" => "multipleactiveplayer",
         "description" => clienttranslate('Choose one favor card to keep'),
         "descriptionmyturn" => clienttranslate('Choose one favor card to keep'),
-        "action" => "stChooseFavorCards",
-        "transitions" => array("chooseCards" => 3)
+        //"action" => "stDiscardFavorCard",
+        //"possibleactions" => array( "discardFavorCard" ),
+        "transitions" => array("discardFavorCard" => 3)
     ),
 
     3 => array(
-        "name" => "gameSetup_awaitChooseFavorCards",
-        "type" => "game",
-        "description" => clienttranslate('All players must choose two favor cards to keep'),
-        "action" => "stAwaitChooseFavorCards",
-        "transitions" => array("allPlayersChoseFavorCards" => "STATE_CHOOSE_WAKEUP_ORDER")
-    ),
-
-    "STATE_DETERMINE_WAKEUP_ORDER_CHOOSE_ORDER" => array(
-        "name" => "round_determineWakeupOrderChooseOrder",
-        "type" => "game",
-        "description" => "",
-        "action" => "stDetermineWakeupOrderChooseOrder",
-        "transitions" => array("startChooseWakeupOrder" => "STATE_CHOOSE_WAKEUP_ORDER")
-    ),
-
-    "STATE_CHOOSE_WAKEUP_ORDER" => array(
-        "name" => "round_chooseWakeupOrder",
+        "name" => "gameDebug_mixIngredients",
         "type" => "activeplayer",
-        "description" => clienttranslate('${actplayer} must choose his/her wakeup order'),
-        "descriptionmyturn" => clienttranslate('${you} must choose your wakeup order'),
-        "transitions" => array("allPlayersChoseWakeupOrder" => 99)
+        "description" => clienttranslate('Just mix some ingredients'),
+        //"action" => "stChooseIngredients",
+        //"possibleactions" => array( "chooseIngredients" ),
+        "transitions" => array("chooseIngredients" => 99)
     ),
 
     /*
