@@ -116,6 +116,29 @@
     height: 21%;
 }
 
+#favor-card-deck {
+    left: 102%;
+    bottom: 25%;
+    width: 7%;
+    height: 21%;
+}
+
+#ingredient-card-deck {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 4%;
+    bottom: 27%;
+    width: 6%;
+    transform: rotate(90deg);
+}
+
+.deck-count {
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+}
+
 .playertablecard {
     display: inline-block;
     position: relative;
@@ -126,8 +149,6 @@
 
 .card-on-table {
     position: absolute;
-    width: 72px;
-    height: 96px;
     background-image: url('img/cards.jpg');
 }
 

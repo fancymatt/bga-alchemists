@@ -21,6 +21,11 @@
         <div id="PUBLISH_THEORY_SPACE" class="worker-placement-space"></div>
         <div id="TEST_ON_STUDENT_SPACE" class="worker-placement-space"></div>
         <div id="TEST_ON_SELF_SPACE" class="worker-placement-space"></div>
+
+        <div id="favor-card-deck" class="worker-placement-space"></div>
+        <div id="ingredient-card-deck" class="worker-placement-space">
+            <span class="deck-count">99</span>
+        </div>
     </div>
     <div id="theory-board">
         <h2>Theory Board</h2>

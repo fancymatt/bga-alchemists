@@ -49,9 +49,10 @@ define([
             // Setup ingredients
             this.ingredientsDeck = new ALC_Deck(gamedatas.ingredientTypes, g_gamethemeurl + 'img/ingredients.jpg', 72, 96, this);
             this.ingredientsDeck.setPlayerHand('ingredient-cards-hand');
-            //this.ingredientsDeck.setDeck('ingredient-cards-deck');
+            this.ingredientsDeck.setDeck('ingredient-card-deck');
             //this.ingredientsDeck.setDiscardPile('ingredient-cards-discard');
             this.ingredientsDeck.updatePlayerHand(this.gamedatas.ingredientHand);
+            this.ingredientsDeck.updateDeck(this.gamedatas.ingredientDeckCount);
 
             // Setup favors
             this.favorsDeck = new ALC_Deck(gamedatas.favorTypes, g_gamethemeurl + 'img/favors.jpg', 72, 96, this);
