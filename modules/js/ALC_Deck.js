@@ -77,5 +77,26 @@ define(['dojo', 'dojo/_base/declare', 'ebg/stock'], (dojo, declare, Stock) => {
                 $(cardDivId).classList.add('pending-discard');
             });
         }
+
+        dealCardsToHand(playerHandData) {
+            let cardsToDeal = [];
+            for (let key in playerHandData) {
+                cardsToDeal.push(playerHandData[key]);
+            }
+
+            while(cardsToDeal.length > 0) {
+                // TODO: Delay before each card is dealt
+                this.dealCardToHand(cardsToDeal.pop());
+            }
+        }
+
+        dealCardToHand(card) {
+            this.hand.addToStockWithId(card.type_arg, card.id);
+        }
+
+        delay(milliseconds) {
+            return new Promise(resolve => setTimeout(resolve, milliseconds));
+        }
+
     }
 });

@@ -22,7 +22,9 @@
         <div id="TEST_ON_STUDENT_SPACE" class="worker-placement-space"></div>
         <div id="TEST_ON_SELF_SPACE" class="worker-placement-space"></div>
 
-        <div id="favor-card-deck" class="worker-placement-space"></div>
+        <div id="favor-card-deck" class="favor-cards-in-deck-1">
+            <span class="deck-count">99</span>
+        </div>
         <div id="ingredient-card-deck" class="ingredient-cards-in-deck-1">
             <span class="deck-count">99</span>
         </div>

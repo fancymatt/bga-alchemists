@@ -57,7 +57,8 @@ define([
             // Setup favors
             this.favorsDeck = new ALC_Deck(gamedatas.favorTypes, g_gamethemeurl + 'img/favors.jpg', 72, 96, this);
             this.favorsDeck.setPlayerHand('favor-cards-hand');
-            this.favorsDeck.updatePlayerHand(this.gamedatas.favorHand);
+            this.favorsDeck.setDeck('favor-card-deck');
+            this.favorsDeck.updateDeck(this.gamedatas.favorDeck);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -75,6 +76,13 @@ define([
         onEnteringState: function( stateName, args )
         {
             console.log( 'Entering state: '+stateName );
+
+            switch( stateName ) {
+                case 'gameSetup_chooseFavorCards':
+                    this.ingredientsDeck.dealCardsToHand(this.gamedatas.ingredientHand);
+                    this.favorsDeck.dealCardsToHand(this.gamedatas.favorHand);
+                    return;
+            }
         },
 
         // onLeavingState: this method is called each time we are leaving a game state.

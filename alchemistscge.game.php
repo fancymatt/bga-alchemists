@@ -63,12 +63,12 @@ class AlchemistsCGE extends EuroGame
 
         // Each player draws 3 ingredient cards
         foreach($players as $player_id => $player) {
-            $this->ingredient_card_deck->player_draw_cards($player_id, 6);
+            $this->ingredient_card_deck->player_draw_cards($player_id, 3);
         }
 
         // Each player draws 2 favor cards
         foreach($players as $player_id => $player) {
-            $this->favor_card_deck->player_draw_cards($player_id, 6);
+            $this->favor_card_deck->player_draw_cards($player_id, 2);
         }
 
 
@@ -113,6 +113,7 @@ class AlchemistsCGE extends EuroGame
 
         $result['ingredientDeck'] = $this->ingredient_card_deck->get_deck();
         $result['ingredientHand'] = $this->ingredient_card_deck->get_player_hand($current_player_id);
+        $result['favorDeck'] = $this->favor_card_deck->get_deck();
         $result['favorHand'] = $this->favor_card_deck->get_player_hand($current_player_id);
 
         // from material.inc.php. TODO: Figure out how to autocomplete
@@ -158,6 +159,8 @@ class AlchemistsCGE extends EuroGame
         Each time a player is doing some game action, one of the methods below is called.
         (note: each method below must match an input method in alchemistscge.action.php)
     */
+
+
 
     /*
     function stDiscardFavorCard($card_id) {
