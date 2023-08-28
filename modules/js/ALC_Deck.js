@@ -1,6 +1,5 @@
 define(['dojo', 'dojo/_base/declare', 'ebg/stock'], (dojo, declare, stock) => {
-    return class ALC_IngredientCardDeck {
-
+    return class ALC_Deck {
         hand;
         cardWidth = 72;
         cardHeight = 96;
@@ -18,11 +17,10 @@ define(['dojo', 'dojo/_base/declare', 'ebg/stock'], (dojo, declare, stock) => {
                 this.hand.addItemType(type.id, 1, cardImagePath, type.id);
             }
 
-            dojo.connect(this.hand, 'onChangeSelection', this, 'onPlayerFavorCardHandSelectionChanged');
+            dojo.connect(this.hand, 'onChangeSelection', this, 'onHandSelectionChanged');
         }
 
         updatePlayerHand(playerHandData) {
-            console.log("playerHandData", playerHandData);
             for (let key in playerHandData) {
                 const card = playerHandData[key];
                 const typeId = card.type_arg;
@@ -30,8 +28,8 @@ define(['dojo', 'dojo/_base/declare', 'ebg/stock'], (dojo, declare, stock) => {
             }
         }
 
-        onPlayerFavorCardHandSelectionChanged() {
-            console.log("onPlayerFavorCardHandSelectionChanged");
+        onHandSelectionChanged() {
+            console.log("onHandSelectionChanged");
             /*
             let selectedItems = this.playerFavorHand.getSelectedItems();
                 if (selectedItems.length != 1)

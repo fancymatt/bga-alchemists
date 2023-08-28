@@ -22,9 +22,8 @@ define([
     'dojo/_base/declare',
     'ebg/core/gamegui',
     'ebg/counter',
-    g_gamethemeurl + 'modules/js/ALC_FavorCardDeck.js',
-    g_gamethemeurl + 'modules/js/ALC_IngredientCardDeck.js'
-], function (dojo, declare, gamegui, counter, ALC_FavorCardDeck, ALC_IngredientCardDeck) {
+    g_gamethemeurl + 'modules/js/ALC_Deck.js',
+], function (dojo, declare, gamegui, counter, ALC_Deck) {
     return declare('bgagame.alchemistscge', ebg.core.gamegui, {
         constructor: function(){
             console.log('alchemistscge constructor');
@@ -68,13 +67,13 @@ define([
 
             // Player hand: Ingredients
             console.log(this);
-            this.playerIngredientsHand = new ALC_IngredientCardDeck();
+            this.playerIngredientsHand = new ALC_Deck();
             this.playerIngredientsHand.setup('ingredient-cards-hand',
                 this.gamedatas.ingredientTypes, g_gamethemeurl + 'img/ingredients.jpg', this);
             this.playerIngredientsHand.updatePlayerHand(this.gamedatas.ingredientHand);
 
             // Player hand: Favors
-            this.playerFavorHand = new ALC_FavorCardDeck();
+            this.playerFavorHand = new ALC_Deck();
             this.playerFavorHand.setup('favor-cards-hand',
                 this.gamedatas.favorTypes, g_gamethemeurl + 'img/favors.jpg', this);
             this.playerFavorHand.updatePlayerHand(this.gamedatas.favorHand);
