@@ -63,12 +63,12 @@ class AlchemistsCGE extends EuroGame
 
         // Each player draws 3 ingredient cards
         foreach($players as $player_id => $player) {
-            $this->ingredient_card_deck->player_draw_cards($player_id, 3);
+            $this->ingredient_card_deck->player_draw_cards($player_id, 6);
         }
 
         // Each player draws 2 favor cards
         foreach($players as $player_id => $player) {
-            $this->favor_card_deck->player_draw_cards($player_id, 2);
+            $this->favor_card_deck->player_draw_cards($player_id, 6);
         }
 
 

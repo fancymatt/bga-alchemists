@@ -26,30 +26,11 @@ define([
 ], function (dojo, declare, gamegui, counter, ALC_Deck) {
     return declare('bgagame.alchemistscge', ebg.core.gamegui, {
         constructor: function(){
-            console.log('alchemistscge constructor');
-              
-            // Here, you can init the global variables of your user interface
-            // Example:
-            // this.myGlobalValue = 0;
-
+            console.log('alchemistscge.js::constructor');
         },
-        
-        /*
-            setup:
-            
-            This method must set up the game user interface according to current game situation specified
-            in parameters.
-            
-            The method is called each time the game interface is displayed to a player, ie:
-            _ when the game starts
-            _ when a player refreshes the game page (F5)
-            
-            "gamedatas" argument contains all datas retrieved by your "getAllDatas" PHP method.
-        */
-        
-        setup: function( gamedatas )
+        setup: function(gamedatas)
         {
-            console.log( "Starting game setup" );
+            console.log('alchemistscge.js::setup');
 
             // Set mobile viewport for portrait orientation based on gameinfos.inc.php
             this.default_viewport = "width=" + this.interface_min_width;
@@ -65,19 +46,17 @@ define([
             
             // TODO: Set up your game interface here, according to "gamedatas"
 
-            // Player hand: Ingredients
-            console.log(this);
-            this.playerIngredientsHand = new ALC_Deck();
-            this.playerIngredientsHand.setup('ingredient-cards-hand',
-                this.gamedatas.ingredientTypes, g_gamethemeurl + 'img/ingredients.jpg', this);
-            this.playerIngredientsHand.updatePlayerHand(this.gamedatas.ingredientHand);
+            // Setup ingredients
+            this.ingredientsDeck = new ALC_Deck(gamedatas.ingredientTypes, g_gamethemeurl + 'img/ingredients.jpg', 72, 96, this);
+            this.ingredientsDeck.setPlayerHand('ingredient-cards-hand');
+            //this.ingredientsDeck.setDeck('ingredient-cards-deck');
+            //this.ingredientsDeck.setDiscardPile('ingredient-cards-discard');
+            this.ingredientsDeck.updatePlayerHand(this.gamedatas.ingredientHand);
 
-            // Player hand: Favors
-            this.playerFavorHand = new ALC_Deck();
-            this.playerFavorHand.setup('favor-cards-hand',
-                this.gamedatas.favorTypes, g_gamethemeurl + 'img/favors.jpg', this);
-            this.playerFavorHand.updatePlayerHand(this.gamedatas.favorHand);
-
+            // Setup favors
+            this.favorsDeck = new ALC_Deck(gamedatas.favorTypes, g_gamethemeurl + 'img/favors.jpg', 72, 96, this);
+            this.favorsDeck.setPlayerHand('favor-cards-hand');
+            this.favorsDeck.updatePlayerHand(this.gamedatas.favorHand);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
