@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * My own wrapper for the BGA Deck class
+ *
+ * Reminder of key values for cards inside Decks:
+ * id: unique id
+ * type, type_arg: what kind of card
+ * location, location_arg: where is the card ('hand', 'deck', 'discard')
+ */
+
 class ALC_Deck {
 
     protected $deck_title = 'cards';
@@ -31,10 +41,35 @@ class ALC_Deck {
     }
 
     public function player_draw_card($player_id) {
-        $this->cards->pickCards(1, 'deck', $player_id);
+        // TODO: Check for null
+        $this->cards->pickCard('deck', $player_id);
+    }
+
+    public function player_draw_cards($player_id, $num_cards) {
+        $this->cards->pickCards($num_cards, 'deck', $player_id);
     }
 
     public function get_player_hand($player_id) {
         return $this->cards->getCardsInLocation('hand', $player_id);
+    }
+
+    public function get_deck() {
+        return $this->cards->getCardsInLocation('deck');
+    }
+
+    public function get_discard_pile() {
+        return $this->cards->getCardsInLocation('discard');
+    }
+
+    public function discard_card($card_id) {
+        $this->cards->moveCard($card_id, 'discard');
+    }
+
+    public function get_deck_count() {
+        return $this->cards->countCardInLocation('deck');
+    }
+
+    public function get_discard_count() {
+        return $this->cards->countCardInLocation('discard');
     }
 }

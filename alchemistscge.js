@@ -18,18 +18,16 @@
 
 
 define([
-    "dojo","dojo/_base/declare",
-    "ebg/core/gamegui",
-    "ebg/counter",
-    "ebg/stock"
-],
-function (dojo, declare) {
-    return declare("bgagame.alchemistscge", ebg.core.gamegui, {
+    'dojo',
+    'dojo/_base/declare',
+    'ebg/core/gamegui',
+    'ebg/counter',
+    g_gamethemeurl + 'modules/ALC_FavorCardDeck.js',
+    g_gamethemeurl + 'modules/ALC_IngredientCardDeck.js'
+], function (dojo, declare, gamegui, counter, ALC_FavorCardDeck, ALC_IngredientCardDeck) {
+    return declare('bgagame.alchemistscge', ebg.core.gamegui, {
         constructor: function(){
             console.log('alchemistscge constructor');
-
-            this.cardwidth = 72;
-            this.cardheight = 96;
               
             // Here, you can init the global variables of your user interface
             // Example:
@@ -69,40 +67,18 @@ function (dojo, declare) {
             // TODO: Set up your game interface here, according to "gamedatas"
 
             // Player hand: Ingredients
-            this.playerIngredientsHand = new ebg.stock();
-            this.playerIngredientsHand.create(this, $('ingredient-cards-hand'), this.cardwidth, this.cardheight);
-            this.playerIngredientsHand.image_items_per_row = 8;
-
-            for (let key in this.gamedatas.ingredientTypes) {
-                let ingredientType = this.gamedatas.ingredientTypes[key];
-                this.playerIngredientsHand.addItemType(ingredientType.id, 1, g_gamethemeurl + 'img/ingredients.jpg', ingredientType.id);
-            }
-
-            for (let key in this.gamedatas.ingredientHand) {
-                var card = this.gamedatas.ingredientHand[key];
-                var type = card.type;
-                var id = this.gamedatas.ingredientTypes[type].id;
-                this.playerIngredientsHand.addToStockWithId(id, card.id);
-            }
+            console.log(this);
+            this.playerIngredientsHand = new ALC_IngredientCardDeck();
+            this.playerIngredientsHand.setup('ingredient-cards-hand',
+                this.gamedatas.ingredientTypes, g_gamethemeurl + 'img/ingredients.jpg', this);
+            this.playerIngredientsHand.updatePlayerHand(this.gamedatas.ingredientHand);
 
             // Player hand: Favors
-            this.playerFavorHand = new ebg.stock();
-            this.playerFavorHand.create(this, $('favor-cards-hand'), this.cardwidth, this.cardheight);
-            this.playerFavorHand.image_items_per_row = 8;
+            this.playerFavorHand = new ALC_FavorCardDeck();
+            this.playerFavorHand.setup('favor-cards-hand',
+                this.gamedatas.favorTypes, g_gamethemeurl + 'img/favors.jpg', this);
+            this.playerFavorHand.updatePlayerHand(this.gamedatas.favorHand);
 
-            for (let key in this.gamedatas.favorTypes) {
-                let favorType = this.gamedatas.favorTypes[key];
-                this.playerFavorHand.addItemType(favorType.id, 1, g_gamethemeurl + 'img/favors.jpg', favorType.id);
-            }
-
-            for (let key in this.gamedatas.favorHand) {
-                var card = this.gamedatas.favorHand[key];
-                var type = card.type;
-                var id = this.gamedatas.favorTypes[type].id;
-                this.playerFavorHand.addToStockWithId(id, card.id);
-            }
-
-            dojo.connect(this.playerFavorHand, 'onChangeSelection', this, 'onPlayerFavorCardHandSelectionChanged');
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -212,16 +188,6 @@ function (dojo, declare) {
             _ make a call to the game server
         
         */
-
-        onPlayerFavorCardHandSelectionChanged: function() {
-            let selectedItems = this.playerFavorHand.getSelectedItems();
-            if (selectedItems.length != 1)
-                return;
-
-            let selectedCard = selectedItems[0];
-            this.discardFavorCard(selectedCard.id);
-
-        },
 
         /* Example:
         
