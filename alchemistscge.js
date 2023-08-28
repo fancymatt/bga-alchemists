@@ -22,8 +22,8 @@ define([
     'dojo/_base/declare',
     'ebg/core/gamegui',
     'ebg/counter',
-    g_gamethemeurl + 'modules/ALC_FavorCardDeck.js',
-    g_gamethemeurl + 'modules/ALC_IngredientCardDeck.js'
+    g_gamethemeurl + 'modules/js/ALC_FavorCardDeck.js',
+    g_gamethemeurl + 'modules/js/ALC_IngredientCardDeck.js'
 ], function (dojo, declare, gamegui, counter, ALC_FavorCardDeck, ALC_IngredientCardDeck) {
     return declare('bgagame.alchemistscge', ebg.core.gamegui, {
         constructor: function(){

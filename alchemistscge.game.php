@@ -7,8 +7,8 @@ require_once(APP_GAMEMODULE_PATH . 'module/common/deck.game.php');
 require_once('modules/EuroGame.php');
 
 // All custom classes for this game
-require_once('modules/ALC_FavorCardDeck.php');
-require_once('modules/ALC_IngredientCardDeck.php');
+require_once('modules/php/ALC_FavorCardDeck.php');
+require_once('modules/php/ALC_IngredientCardDeck.php');
 
 class AlchemistsCGE extends EuroGame
 {
