@@ -124,32 +124,26 @@
 }
 
 #ingredient-card-deck {
+    position: absolute;
+    width: 72px;
+    height: 96px;
     display: flex;
-    align-items: center;
+    align-items: end;
     justify-content: center;
     right: 4%;
     bottom: 27%;
-    width: 6%;
     transform: rotate(90deg);
+}
+
+.ingredient-cards-in-deck-1 {
+    background-image: url('img/card-backs.jpg');
+    background-position-x: -72px;
 }
 
 .deck-count {
     color: white;
     font-weight: bold;
-    font-size: 2em;
-}
-
-.playertablecard {
-    display: inline-block;
-    position: relative;
-    margin-top: 5px;
-    width: 72px;
-    height: 96px;
-}
-
-.card-on-table {
-    position: absolute;
-    background-image: url('img/cards.jpg');
+    font-size: 1em;
 }
 
 .pending-discard {
@@ -173,7 +167,3 @@
         background-repeat: none;
     }
 */
-
-
-
-

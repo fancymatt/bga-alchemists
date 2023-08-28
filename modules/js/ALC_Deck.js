@@ -31,6 +31,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/stock'], (dojo, declare, Stock) => {
             this.handElementId = playerHandElementId;
             this.hand.create(this.gameThis, $(playerHandElementId), this.cardWidth, this.cardHeight);
             this.hand.image_items_per_row = 8;
+            this.hand.setSelectionMode(1);
 
             for (let key in this.cardTypes) {
                 let type = this.cardTypes[key];
@@ -41,15 +42,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/stock'], (dojo, declare, Stock) => {
         }
 
         setDeck(deckElementId) {
-            this.deck = new Stock();
             this.deckElementId = deckElementId;
-            this.deck.create(this.gameThis, $(deckElementId), this.cardWidth, this.cardHeight);
-            this.deck.image_items_per_row = 8;
-
-            for (let key in this.cardTypes) {
-                let type = this.cardTypes[key];
-                this.hand.addItemType(type.id, 1, this.cardImagePath, type.id);
-            }
         }
 
         updatePlayerHand(playerHandData) {
@@ -59,9 +52,19 @@ define(['dojo', 'dojo/_base/declare', 'ebg/stock'], (dojo, declare, Stock) => {
             }
         }
 
-        updateDeck(deckCount) {
+        updateDeck(deckData) {
             let deckEl = $(this.deckElementId);
-            deckEl.children[0].innerHTML = deckCount;
+            deckEl.children[0].innerHTML = this.deckCount(deckData).toString();
+        }
+
+        deckCount(deckData) {
+            let count = 0;
+            for (var prop in deckData) {
+                if (deckData.hasOwnProperty(prop)) {
+                    count++;
+                }
+            }
+            return count;
         }
 
         onPlayerHandSelectionChanged() {

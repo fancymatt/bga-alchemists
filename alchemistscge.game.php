@@ -111,7 +111,7 @@ class AlchemistsCGE extends EuroGame
 
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
 
-        $result['ingredientDeckCount'] = $this->ingredient_card_deck->get_deck_count();
+        $result['ingredientDeck'] = $this->ingredient_card_deck->get_deck();
         $result['ingredientHand'] = $this->ingredient_card_deck->get_player_hand($current_player_id);
         $result['favorHand'] = $this->favor_card_deck->get_player_hand($current_player_id);
 

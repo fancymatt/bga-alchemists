@@ -19,7 +19,7 @@
  *
  */
 
- $this->ingredient_types = array(
+$this->ingredient_types = array(
 
     "STEM" => array(
         "type_id" => "STEM",
@@ -77,9 +77,9 @@
         "count" => 5
     )
 
- );
+);
 
- $this->favor_types = array(
+$this->favor_types = array(
 
     "ASSISTANT" => array(
         "type_id" => "ASSISTANT",
