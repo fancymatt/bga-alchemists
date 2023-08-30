@@ -40,6 +40,14 @@ class ALC_Deck {
         $this->cards->shuffle('deck');
     }
 
+    public function get_card_by_id($card_id) {
+        return $this->cards->getCard($card_id);
+    }
+
+    public function discard_card($card_id) {
+        $this->cards->moveCard($card_id, 'discard');
+    }
+
     public function player_draw_card($player_id) {
         // TODO: Check for null
         $this->cards->pickCard('deck', $player_id);
@@ -59,10 +67,6 @@ class ALC_Deck {
 
     public function get_discard_pile() {
         return $this->cards->getCardsInLocation('discard');
-    }
-
-    public function discard_card($card_id) {
-        $this->cards->moveCard($card_id, 'discard');
     }
 
     public function get_deck_count() {

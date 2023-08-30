@@ -15,6 +15,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/stock'], (dojo, declare, Stock) => {
         cardHeight = 0;
         gameThis = null;
 
+        onSingleCardSelectHandler = this.singleCardSelectHandler;
+        onNonSingleCardSelectHandler = this.nonSingleCardSelectHandler;
+
         constructor(cardTypes, cardImagePath, cardWidth, cardHeight, gameThis) {
             if (cardTypes.length < 1)
                 console.error('No card types were added to deck on construction!');
@@ -45,6 +48,18 @@ define(['dojo', 'dojo/_base/declare', 'ebg/stock'], (dojo, declare, Stock) => {
             this.deckElementId = deckElementId;
         }
 
+        singleCardSelectHandler() {
+            console.log("single card select handler");
+        }
+
+        nonSingleCardSelectHandler() {
+            console.log("0 or 2+ cards selected handler");
+        }
+
+        removeCardFromHand(cardId) {
+            this.hand.removeFromStockById(cardId);
+        }
+
         updatePlayerHand(playerHandData) {
             for (let key in playerHandData) {
                 const card = playerHandData[key];
@@ -70,12 +85,23 @@ define(['dojo', 'dojo/_base/declare', 'ebg/stock'], (dojo, declare, Stock) => {
         onPlayerHandSelectionChanged() {
             this.hand.getUnselectedItems().forEach((item) => {
                 let cardDivId = this.hand.getItemDivId(item.id);
+                $(cardDivId).innerHTML = '';
                 $(cardDivId).classList.remove('pending-discard');
             });
             this.hand.getSelectedItems().forEach((item) => {
                 let cardDivId = this.hand.getItemDivId(item.id);
                 $(cardDivId).classList.add('pending-discard');
+                let overlayDiv = document.createElement('div');
+                let icon = document.createElement('span');
+                icon.innerHTML = 'X';
+                $(overlayDiv).append(icon);
+                $(cardDivId).append(overlayDiv);
             });
+            if (this.hand.getSelectedItems().length == 1) {
+                this.onSingleCardSelectHandler();
+            } else {
+                this.onNonSingleCardSelectHandler();
+            }
         }
 
         dealCardsToHand(playerHandData) {
@@ -96,6 +122,21 @@ define(['dojo', 'dojo/_base/declare', 'ebg/stock'], (dojo, declare, Stock) => {
 
         delay(milliseconds) {
             return new Promise(resolve => setTimeout(resolve, milliseconds));
+        }
+
+        getSelectedCard() {
+            if (this.hand.getSelectedItems().length != 1)
+                return null;
+
+            return this.hand.getSelectedItems()[0];
+        }
+
+        setHandlerForSingleSelection(handler) {
+            this.onSingleCardSelectHandler = handler;
+        }
+
+        setHandlerForNonSingleSelection(handler) {
+            this.onNonSingleCardSelectHandler = handler;
         }
 
     }

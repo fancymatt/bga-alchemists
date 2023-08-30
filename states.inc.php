@@ -66,8 +66,8 @@ $machinestates = array(
         "type" => "multipleactiveplayer",
         "description" => clienttranslate('Other players must choose one favor card to discard'),
         "descriptionmyturn" => clienttranslate('Choose one favor card to discard'),
-        //"action" => "stDiscardFavorCard",
-        //"possibleactions" => array( "discardFavorCard" ),
+        "action" => "st_chooseFavorCards",
+        "possibleactions" => array( "discardFavorCard" ),
         "transitions" => array("discardFavorCard" => 3)
     ),
 

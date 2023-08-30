@@ -56,21 +56,7 @@ class AlchemistsCGE extends EuroGame
 
         /************ Start the game initialization *****/
 
-        $this->ingredient_card_deck->populate_deck($this->ingredient_types);
-        $this->favor_card_deck->populate_deck($this->favor_types);
-
-        $players = self::loadPlayersBasicInfos();
-
-        // Each player draws 3 ingredient cards
-        foreach($players as $player_id => $player) {
-            $this->ingredient_card_deck->player_draw_cards($player_id, 3);
-        }
-
-        // Each player draws 2 favor cards
-        foreach($players as $player_id => $player) {
-            $this->favor_card_deck->player_draw_cards($player_id, 2);
-        }
-
+        $this->init_table();
 
         // Init global values with their initial values
         //self::setGameStateInitialValue( 'my_first_global_variable', 0 );
@@ -102,23 +88,23 @@ class AlchemistsCGE extends EuroGame
     {
         $result = array();
     
-        $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
-    
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
         $sql = "SELECT player_id id, player_score score FROM player ";
         $result['players'] = self::getCollectionFromDb( $sql );
 
-        // TODO: Gather all information about current game situation (visible by player $current_player_id).
-
-        $result['ingredientDeck'] = $this->ingredient_card_deck->get_deck();
-        $result['ingredientHand'] = $this->ingredient_card_deck->get_player_hand($current_player_id);
-        $result['favorDeck'] = $this->favor_card_deck->get_deck();
-        $result['favorHand'] = $this->favor_card_deck->get_player_hand($current_player_id);
-
-        // from material.inc.php. TODO: Figure out how to autocomplete
+        // Get materials we need to use in JS
         $result['ingredientTypes'] = $this->ingredient_types;
         $result['favorTypes'] = $this->favor_types;
+
+        // Get game state for all players
+        $result['ingredientDeck'] = $this->ingredient_card_deck->get_deck();
+        $result['favorDeck'] = $this->favor_card_deck->get_deck();
+
+        // Only get secret information for current player
+        $current_player_id = self::getCurrentPlayerId();
+        $result['ingredientHand'] = $this->ingredient_card_deck->get_player_hand($current_player_id);
+        $result['favorHand'] = $this->favor_card_deck->get_player_hand($current_player_id);
 
         return $result;
     }
@@ -149,6 +135,11 @@ class AlchemistsCGE extends EuroGame
         In this space, you can put any utility methods useful for your game logic
     */
 
+    function init_table() {
+        $this->ingredient_card_deck->populate_deck($this->ingredient_types);
+        $this->favor_card_deck->populate_deck($this->favor_types);
+    }
+
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -162,8 +153,7 @@ class AlchemistsCGE extends EuroGame
 
 
 
-    /*
-    function stDiscardFavorCard($card_id) {
+    function discardFavorCard($card_id) {
         if ($card_id == null) {
             throw new BgaUserException(self::_("You must choose a card to discard"));
             return;
@@ -171,9 +161,9 @@ class AlchemistsCGE extends EuroGame
 
         self::checkAction("discardFavorCard");
         $player_id = self::getActivePlayerId();
-        $this->favor_cards->moveCard($card_id, 'discard', $player_id);
+        $this->favor_card_deck->discard_card($card_id);
 
-        $discarded_card = $this->favor_cards->getCard($card_id);
+        $discarded_card = $this->favor_card_deck->get_card_by_id($card_id);
         $discarded_card_type = $this->favor_types[$discarded_card['type']];
 
         self::notifyAllPlayers('stDiscardFavorCard', clienttranslate('${player_name} discards a ${favor_card_type} card'), array(
@@ -182,7 +172,6 @@ class AlchemistsCGE extends EuroGame
         ));
         $this->gamestate->nextState("discardFavorCard");
     }
-    */
 
     /*
     
@@ -247,22 +236,19 @@ class AlchemistsCGE extends EuroGame
         The action method of state X is called everytime the current game state is set to X.
     */
 
-    /*
 
-    function stChooseFavorCards()
+    function st_ChooseFavorCards()
     {
         $this->gamestate->setAllPlayersMultiactive();
 
+        $players = self::loadPlayersBasicInfos();
 
+        // Each player draws 2 favor cards
+        foreach($players as $player_id => $player) {
+            $this->favor_card_deck->player_draw_cards($player_id, 2);
+        }
         //$this->gamestate->nextState("STATE_CHOOSE_WAKEUP_ORDER");
     }
-
-    function stChooseIngredients()
-    {
-
-    }
-
-    */
     
     /*
     

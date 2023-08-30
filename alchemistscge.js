@@ -50,8 +50,6 @@ define([
             this.ingredientsDeck = new ALC_Deck(gamedatas.ingredientTypes, g_gamethemeurl + 'img/ingredients.jpg', 72, 96, this);
             this.ingredientsDeck.setPlayerHand('ingredient-cards-hand');
             this.ingredientsDeck.setDeck('ingredient-card-deck');
-            //this.ingredientsDeck.setDiscardPile('ingredient-cards-discard');
-            this.ingredientsDeck.updatePlayerHand(this.gamedatas.ingredientHand);
             this.ingredientsDeck.updateDeck(this.gamedatas.ingredientDeck);
 
             // Setup favors
@@ -79,8 +77,18 @@ define([
 
             switch( stateName ) {
                 case 'gameSetup_chooseFavorCards':
-                    this.ingredientsDeck.dealCardsToHand(this.gamedatas.ingredientHand);
                     this.favorsDeck.dealCardsToHand(this.gamedatas.favorHand);
+
+                    this.favorsDeck.setHandlerForSingleSelection(() => {
+                        dojo.removeClass('button_confirm_discard', 'disabled');
+                        console.log("single selection");
+                    });
+
+                    this.favorsDeck.setHandlerForNonSingleSelection(() => {
+                        dojo.addClass('button_confirm_discard', 'disabled');
+                        console.log("non single selection");
+                    });
+
                     return;
             }
         },
@@ -111,44 +119,31 @@ define([
         {
             console.log( 'onUpdateActionButtons: '+stateName );
                       
-            if( this.isCurrentPlayerActive() )
-            {            
-                switch( stateName )
-                {
-                    case 'gameSetup_chooseFavorCards':
-                        this.addActionButton('button_1_id', _('Confirm Selection'), 'discardFavorCard');
-                        break;
-/*               
-                 Example:
- 
-                 case 'myGameState':
-                    
-                    // Add 3 action buttons in the action status bar:
-                    
-                    this.addActionButton( 'button_1_id', _('Button 1 label'), 'onMyMethodToCall1' ); 
-                    this.addActionButton( 'button_2_id', _('Button 2 label'), 'onMyMethodToCall2' ); 
-                    this.addActionButton( 'button_3_id', _('Button 3 label'), 'onMyMethodToCall3' ); 
+            if(!this.isCurrentPlayerActive()) return;
+
+            switch(stateName)
+            {
+                case 'gameSetup_chooseFavorCards':
+                    this.addActionButton('button_confirm_discard', _('Confirm Discard'), 'confirmDiscard');
+                    dojo.addClass('button_confirm_discard', 'disabled');
                     break;
-*/
-                }
             }
         },        
 
         ///////////////////////////////////////////////////
         //// Utility methods
 
-        discardFavorCard: function(discardedCardId) {
-            console.log("Discarding favor card", discardedCardId);
-            this.playerFavorHand.removeFromStockById(discardedCardId);
-            let action = "stDiscardFavorCard";
+        confirmDiscard: function() {
+            let card = this.favorsDeck.getSelectedCard();
+            console.log("Discarding favor card", card);
+            this.favorsDeck.removeCardFromHand(card.id);
+            let action = "discardFavorCard";
             this.ajaxcall("/" + this.game_name + "/" + this.game_name + "/" + action + ".html", {
-                card_id: discardedCardId,
+                card_id: card.id,
                 lock: true
             }, this, function(result) {
             }, function(is_error) {
             });
-
-            this.playerFavorHand.unselectAll();
         },
 
         updateFavorCardHand: function() {

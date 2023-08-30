@@ -55,8 +55,7 @@
 <script type="text/javascript">
 
 // Javascript HTML templates
-var jstpl_favorCard = '<div class="card-on-table" id="favor-card_${favor_card_id}" style="background-position:-${x}px -${y}px">\
-                        </div>';
+var jstpl_favorCard = '<div class="card-on-table" id="favor-card_${favor_card_id}" style="background-position:-${x}px -${y}px"><div class="overlay-icon">DIS</div></div>';
 </script>  
 
 {OVERALL_GAME_FOOTER}
